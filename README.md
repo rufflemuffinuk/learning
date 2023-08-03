@@ -1,2 +1,2 @@
 # learning
-Learning to code
+Learning to code and sharing as I go
