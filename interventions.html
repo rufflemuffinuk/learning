@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Airtable Data Display</title>
+    <!-- Include the Airtable JavaScript library -->
+    <script src="airtable.js"></script>
+</head>
+<body>
+    <table id="interventionsTable">
+        <thead>
+            <tr>
+                <th>Intervention Title</th>
+                <!-- Add more table headers for other fields if needed -->
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data rows will be inserted here -->
+        </tbody>
+    </table>
+
+    <script>
+        var Airtable = require('airtable');
+        var base = new Airtable({ apiKey: 'patb6n2kC4QwPKrUI.9bd95a19366934ece61e92b7f59b103c86c4c9f22bd598af9423b758675bcc86' }).base('appFaaYoZrBKskoMX');
+
+        base('Interventions').select({
+            maxRecords: 20,
+            view: "Grid view"
+        }).eachPage(function page(records, fetchNextPage) {
+            var tableBody = document.getElementById('interventionsTable').getElementsByTagName('tbody')[0];
+
+            records.forEach(function(record) {
+                var row = tableBody.insertRow();
+                var titleCell = row.insertCell(0);
+                // Insert more cells for other fields if needed
+                titleCell.appendChild(document.createTextNode(record.get('Intervention Title')));
+            });
+
+            fetchNextPage();
+        }, function done(err) {
+            if (err) { console.error(err); return; }
+        });
+    </script>
+</body>
+</html>
